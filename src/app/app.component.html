@@ -1,0 +1,58 @@
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+<div style="text-align:center">
+  <a routerLink="/productos">Productos</a> - 
+  <a routerLink="/acercade">Acerca de ...</a>
+  <div style="border: 3px solid blue">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<div align="center" class="container">
+  <h3>Administración de Productos - SAB</h3>
+
+    <table border="1" *ngIf="hayRegistros(); else sinproductos" class="table">
+      <thead>
+      <tr>
+        <td><b>Codigo</b></td>
+        <td><b>Nombre</b></td>
+        <td><b>Precio</b></td>
+        <td><b>Imagen</b></td>
+        <td><b>Borrar</b></td>
+        <td><b>Seleccionar</b></td>
+      </tr>
+      </thead>
+      <tr *ngFor="let producto of lista">
+        <td>{{producto.codigo}}</td>
+        <td>{{producto.descripcion}}</td>
+        <td>{{producto.precio}}</td>
+        <td><img src="http://localhost:3000/{{producto.imagen}}" width="100px" ></td>
+        <td><button (click)="eliminar(producto.codigo)" class="btn btn-danger">Borrar</button></td>
+        <td><button (click)="mostrar(producto.codigo)" class="btn btn-primary">Seleccionar</button></td>
+      </tr>
+    </table>
+    <ng-template #sinproductos><p>No hay productos</p></ng-template>
+    <div>
+      <form action="/productos" method="POST" enctype="multipart/form-data">
+      <h1>Datos</h1>
+      <p>
+        Descripcion:<input name="descripcion" class="form-control" type="text" [(ngModel)]="prod.descripcion" />
+      </p>
+      <p>
+        Precio:<input name="precio" class="form-control" type="number" [(ngModel)]="prod.precio" />
+      </p>
+      
+     <p>
+        Imagen: <input type="file" (change)="fileChange($event)" />
+      </p>
+        
+      <p><button (click)="nuevo()" class="btn btn-primary">Agregar</button>
+      <button (click)="actualizar()" class="btn btn-success">Modificar</button></p>
+    </form>
+    </div>
+</div>
